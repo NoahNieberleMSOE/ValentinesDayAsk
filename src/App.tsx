@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Grid, Button, Box, Typography, Modal, Fade, Backdrop } from "@mui/material";
 import Confetti from "react-confetti";
@@ -8,23 +8,62 @@ import emilyImg from "./assets/emily.jpg";
 import "./App.css";
 
 function App() {
+
+    const noButtonRef = useRef<typeof Button>(null);
     const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
     const [showConfetti, setShowConfetti] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+
 
     useEffect(() => {
         document.title = "Be My Valentine 💖";
     }, []);
 
     const handleNoHover = () => {
-        const maxX = window.innerWidth / 2 - 100;
-        const maxY = window.innerHeight / 2 - 100;
+        const padding = 50; // Prevents button from getting too close to edges
+        const maxX = window.innerWidth;
+        const maxY = window.innerHeight;
+
+
+
+        let elem = document.getElementById("NoButton")!;
+        let rect = elem.getBoundingClientRect();
+
+
+        let relativeMaxX = (maxX - rect.x) - 200
+        let relativeMaxY = (maxY - rect.y) - 200
+
+        let randomnessX = (Math.random() * relativeMaxX * (Math.random() > 0.5 ? 1 : -1))
+        let randomnessY = (Math.random() * relativeMaxX * (Math.random() > 0.5 ? 1 : -1))
+
+        let absoluteNewX = randomnessX + rect.x
+        let absoluteNewY = randomnessY + rect.y
+
+
+
+
+        if (absoluteNewX > window.innerWidth) {
+            randomnessX = window.innerWidth - rect.x - 300
+        }
+        if (absoluteNewX < 0) {
+            randomnessX = (window.innerWidth - rect.x - 300) * -1
+        }
+
+        if (absoluteNewY > window.innerHeight) {
+            randomnessY = window.innerHeight - rect.y - 300
+        }
+        if (absoluteNewY < 0) {
+            randomnessY = (window.innerHeight - rect.y - 300) * -1
+        }
 
         setNoPosition({
-            x: Math.random() * maxX * (Math.random() > 0.5 ? 1 : -1),
-            y: Math.random() * maxY * (Math.random() > 0.5 ? 1 : -1),
+            x: randomnessX,
+            y: randomnessY
         });
+
     };
+
+
 
     const handleYesClick = () => {
         setShowConfetti(true);
@@ -85,9 +124,10 @@ function App() {
                         animate={{ x: noPosition.x, y: noPosition.y }}
                         transition={{ type: "spring", stiffness: 100 }}
                         onMouseEnter={handleNoHover}
-                        style={{ position: "relative" }}
+                        style={{ position: "relative"}}
+
                     >
-                        <Button variant="contained" color="error" sx={{ fontSize: 20, px: 4, py: 1.5 }}>
+                        <Button variant="contained" color="error" sx={{ fontSize: 20, px: 4, py: 1.5 }} id = "NoButton">
                             No 😢
                         </Button>
                     </motion.div>
