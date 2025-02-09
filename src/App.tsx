@@ -2,6 +2,9 @@
 import { motion } from "framer-motion";
 import { Grid, Button, Box, Typography, Modal, Fade, Backdrop } from "@mui/material";
 import Confetti from "react-confetti";
+import noahImg from "./assets/noah.jpg";
+import emilyImg from "./assets/emily.jpg";
+
 import "./App.css";
 
 function App() {
@@ -48,14 +51,14 @@ function App() {
             <Grid container justifyContent="space-between" alignItems="center" sx={{ p: 3, width: "100%" }}>
                 <Grid item>
                     <Box component="img"
-                        src="src/assets/noah.jpg"
+                        src={noahImg}
                         alt="Noah"
                         sx={{ width: "20vw", borderRadius: 2 }}
                     />
                 </Grid>
                 <Grid item>
                     <Box component="img"
-                        src="src/assets/emily.jpg"
+                        src={emilyImg }
                         alt="Emily"
                         sx={{ width: "20vw", borderRadius: 2 }}
                     />
