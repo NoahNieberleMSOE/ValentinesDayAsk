@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Grid, Button, Box, Typography, Modal, Fade, Backdrop } from "@mui/material";
 import Confetti from "react-confetti";
@@ -9,10 +9,10 @@ import "./App.css";
 
 function App() {
 
-    const noButtonRef = useRef<typeof Button>(null);
     const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
     const [showConfetti, setShowConfetti] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+
 
 
     useEffect(() => {
@@ -20,7 +20,7 @@ function App() {
     }, []);
 
     const handleNoHover = () => {
-        const padding = 50; // Prevents button from getting too close to edges
+        const padding = 100; // Prevents button from getting too close to edges
         const maxX = window.innerWidth;
         const maxY = window.innerHeight;
 
@@ -30,30 +30,28 @@ function App() {
         let rect = elem.getBoundingClientRect();
 
 
-        let relativeMaxX = (maxX - rect.x) - 200
-        let relativeMaxY = (maxY - rect.y) - 200
+        let relativeMaxX = (maxX - rect.x)
+        let relativeMaxY = (maxY - rect.y)
 
         let randomnessX = (Math.random() * relativeMaxX * (Math.random() > 0.5 ? 1 : -1))
-        let randomnessY = (Math.random() * relativeMaxX * (Math.random() > 0.5 ? 1 : -1))
+        let randomnessY = (Math.random() * relativeMaxY * (Math.random() > 0.5 ? 1 : -1))
+
 
         let absoluteNewX = randomnessX + rect.x
         let absoluteNewY = randomnessY + rect.y
 
-
-
-
-        if (absoluteNewX > window.innerWidth) {
-            randomnessX = window.innerWidth - rect.x - 300
-        }
-        if (absoluteNewX < 0) {
+        if (absoluteNewX > window.innerWidth - padding) {
             randomnessX = (window.innerWidth - rect.x - 300) * -1
         }
-
-        if (absoluteNewY > window.innerHeight) {
-            randomnessY = window.innerHeight - rect.y - 300
+        if (absoluteNewX + padding < 0) {
+            randomnessX = (window.innerWidth - rect.x - 300)
         }
-        if (absoluteNewY < 0) {
+
+        if (absoluteNewY > window.innerHeight - padding) {
             randomnessY = (window.innerHeight - rect.y - 300) * -1
+        }
+        if (absoluteNewY + padding < 0) {
+            randomnessY = (window.innerHeight - rect.y - 300)
         }
 
         setNoPosition({
