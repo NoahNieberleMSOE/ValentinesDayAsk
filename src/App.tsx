@@ -2,8 +2,8 @@
 import { motion } from "framer-motion";
 import { Grid, Button, Box, Typography, Modal, Fade, Backdrop } from "@mui/material";
 import Confetti from "react-confetti";
-import noahImg from "./assets/noah.jpg";
-import emilyImg from "./assets/emily.jpg";
+import noahImg from "assets/noah.jpg";
+import emilyImg from "assets/emily.jpg";
 
 import "./App.css";
 
