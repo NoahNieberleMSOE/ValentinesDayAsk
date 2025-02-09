@@ -20,7 +20,7 @@ function App() {
     }, []);
 
     const handleNoHover = () => {
-        const padding = 100; // Prevents button from getting too close to edges
+        const padding = 200; // Prevents button from getting too close to edges
         const maxX = window.innerWidth;
         const maxY = window.innerHeight;
 
@@ -30,29 +30,33 @@ function App() {
         let rect = elem.getBoundingClientRect();
 
 
-        let relativeMaxX = (maxX - rect.x)
-        let relativeMaxY = (maxY - rect.y)
+        let relativeMaxX = (maxX - rect.x) - rect.width
+        let relativeMaxY = (maxY - rect.y) + rect.height
 
-        let randomnessX = (Math.random() * relativeMaxX * (Math.random() > 0.5 ? 1 : -1))
-        let randomnessY = (Math.random() * relativeMaxY * (Math.random() > 0.5 ? 1 : -1))
+
+        let randomnessX = (Math.random() * relativeMaxX) * (Math.random() > 0.5 ? 1 : -1)
+        let randomnessY = (Math.random() * relativeMaxY) * (Math.random() > 0.5 ? 1 : -1)
 
 
         let absoluteNewX = randomnessX + rect.x
         let absoluteNewY = randomnessY + rect.y
 
+
         if (absoluteNewX > window.innerWidth - padding) {
-            randomnessX = (window.innerWidth - rect.x - 300) * -1
+            randomnessX = (window.innerWidth - rect.x - 300)
         }
         if (absoluteNewX + padding < 0) {
             randomnessX = (window.innerWidth - rect.x - 300)
         }
 
-        if (absoluteNewY > window.innerHeight - padding) {
-            randomnessY = (window.innerHeight - rect.y - 300) * -1
+        if (absoluteNewY > window.innerHeight - rect.height - padding) {
+            randomnessY = Math.abs(randomnessY) * -1
         }
-        if (absoluteNewY + padding < 0) {
-            randomnessY = (window.innerHeight - rect.y - 300)
+        if (absoluteNewY + rect.height + padding < 0) {
+
+            randomnessY = randomnessY * -1
         }
+ 
 
         setNoPosition({
             x: randomnessX,
@@ -120,7 +124,7 @@ function App() {
                 <Grid item>
                     <motion.div
                         animate={{ x: noPosition.x, y: noPosition.y }}
-                        transition={{ type: "spring", stiffness: 100 }}
+                        transition={{ type: "linear", stiffness: 100 }}
                         onMouseEnter={handleNoHover}
                         style={{ position: "relative"}}
 
